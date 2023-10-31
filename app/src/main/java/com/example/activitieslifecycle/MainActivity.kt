@@ -1,19 +1,21 @@
 package com.example.activitieslifecycle
 
-import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var button : Button
-    private lateinit var name: EditText
-    private lateinit var age: EditText
+    private lateinit var textView: TextView
+
+    private var retrofitObject: RetrofitObject? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,28 +24,30 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
 
         button = findViewById(R.id.button)
-        name = findViewById(R.id.editTextName)
-        age = findViewById(R.id.editTextAge)
-
+        textView = findViewById(R.id.textView)
         button.setOnClickListener {
-//            val intent = Intent(this, SecondActivity::class.java)
+            val key = "8d241653a684f6a80b82"
+//            val key = "8d241653a684f6a80b82asd4"
+//            val key = "331b30e8019a2c359e9c"
+            retrofitObject?.get(key, object : Callback<Data> {
+                override fun onResponse(call: Call<Data>, response: Response<Data>) {
+                    val body = response.body()
+                    textView.text = body.toString()
+                }
 
-//            val textName: String = name.text.toString()
-            val textAge: Int = age.text.toString().toInt()
+                override fun onFailure(call: Call<Data>, t: Throwable) {
+                    Log.e(TAG, "Retrofit: $t")
+                }
 
-//            intent.putExtra(EXTRA_NAME, textName)
-//            intent.putExtra(EXTRA_AGE, textAge)
-
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${textAge}"))
-//            val intent = Intent(Intent.ACTION_DIAL)
-
-            startActivity(intent)
+            })
         }
     }
 
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart")
+
+        retrofitObject = RetrofitObject("https://api.npoint.io/")
     }
 
     override fun onResume() {
@@ -59,6 +63,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Log.d(TAG, "onStop")
+
+        retrofitObject = null
     }
 
     override fun onRestart() {

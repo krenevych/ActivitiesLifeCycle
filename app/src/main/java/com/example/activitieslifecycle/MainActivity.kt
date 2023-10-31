@@ -1,6 +1,7 @@
 package com.example.activitieslifecycle
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,13 +26,16 @@ class MainActivity : AppCompatActivity() {
         age = findViewById(R.id.editTextAge)
 
         button.setOnClickListener {
-            val intent = Intent(this, SecondActivity::class.java)
+//            val intent = Intent(this, SecondActivity::class.java)
 
-            val textName: String = name.text.toString()
+//            val textName: String = name.text.toString()
             val textAge: Int = age.text.toString().toInt()
 
-            intent.putExtra(EXTRA_NAME, textName)
-            intent.putExtra(EXTRA_AGE, textAge)
+//            intent.putExtra(EXTRA_NAME, textName)
+//            intent.putExtra(EXTRA_AGE, textAge)
+
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${textAge}"))
+//            val intent = Intent(Intent.ACTION_DIAL)
 
             startActivity(intent)
         }

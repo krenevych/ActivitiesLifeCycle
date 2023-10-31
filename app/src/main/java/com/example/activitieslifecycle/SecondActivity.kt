@@ -1,11 +1,12 @@
 package com.example.activitieslifecycle
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.activitieslifecycle.MainActivity.Companion.EXTRA_AGE
 import com.example.activitieslifecycle.MainActivity.Companion.EXTRA_NAME
 
@@ -20,6 +21,7 @@ class SecondActivity : AppCompatActivity() {
         buttonReturnToFirstActivity = findViewById(R.id.button2)
         buttonReturnToFirstActivity.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+
             startActivity(intent)
         }
 
